@@ -1,0 +1,55 @@
+Question: Alternatively, to compare items in the cart, instead of using Comparator, we can use the Comparable interface and override the compareTo()method. You can refer to the Java docs to see the information of this interface.
+Suppose we are taking this Comparable interface approach.
+
+- What class should implement the Comparable interface?
++ Lớp Media nên implement Comparable<Media>.
++ Lý do: các đối tượng trong cart đều là các loại media (Book, DigitalVideoDisc, CompactDisc) và đều kế thừa từ Media.
++ Việc implement Comparable ở Media sẽ cung cấp một thứ tự mặc định chung cho tất cả các media trong cart.
+	public abstract class Media implements Comparable<Media> {
+    		// fields: id, title, category, cost
+	}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- In those classes, how should you implement the compareTo()method be to reflect the ordering that we want?
+Giả sử muốn sắp xếp theo title, nếu trùng thì cost giảm dần, ta có thể implement compareTo() như sau:
+	@Override
+	public int compareTo(Media other) {
+    		int titleCompare = this.title.compareTo(other.title);
+    		if (titleCompare != 0) {
+        		return titleCompare; 	// Nếu title khác nhau → sắp xếp theo title
+    		} else {
+        		// Nếu title giống nhau → sắp xếp cost giảm dần
+        		return Float.compare(other.cost, this.cost);
+    		}
+	}
++ this.title.compareTo(other.title) → sắp xếp alphabet theo title.
++ Float.compare(other.cost, this.cost) → cost lớn hơn sẽ đứng trước.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach?
++ Không, Comparable chỉ cung cấp một thứ tự mặc định duy nhất (compareTo()).
++ Nếu muốn nhiều thứ tự sắp xếp khác nhau, phải dùng Comparator.
+Ví dụ:
+	Comparator<Media> byTitleCost = Comparator.comparing(Media::getTitle)
+                                          							.thenComparing(Comparator.comparing(Media::getCost).reversed());
+	Comparator<Media> byCostTitle = Comparator.comparing(Media::getCost).reversed()
+                                          							.thenComparing(Media::getTitle);
+	Collections.sort(list, byTitleCost);
+	Collections.sort(list, byCostTitle);
++ Comparator cho phép áp dụng nhiều quy tắc khác nhau cho cùng danh sách media.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Suppose the DVDs has a different ordering rule from the other media types, that is by title, then decreasing length, then cost. How would you modify your code to allow this?
++ Không thể dùng compareTo() của Media cho riêng DVD vì compareTo() chỉ có một quy tắc mặc định cho tất cả media.
++ Giải pháp: tạo Comparator riêng cho DVD.
+Ví dụ:
+	Comparator<DigitalVideoDisc> dvdComparator = Comparator
+        			.comparing(DigitalVideoDisc::getTitle)
+        			.thenComparing(Comparator.comparing(DigitalVideoDisc::getLength).reversed())
+        			.thenComparing(DigitalVideoDisc::getCost);
+	Collections.sort(dvdList, dvdComparator);
++ Với các loại media khác, vẫn dùng Comparable hoặc Comparator khác.
++ Đây là ví dụ của đa hình trong sắp xếp: mỗi lớp có thể có quy tắc riêng.
