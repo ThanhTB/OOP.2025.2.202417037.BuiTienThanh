@@ -1,0 +1,12 @@
+Câu hỏi 8: 
+Không. Java tuy cho phép Overload xảy ra nhưng cần phân biệt chữ ký: bao gồm: Tên phương thức và Kiểu dữ liệu của các tham số và số lượng tham só.
+Vì cả title và category đều là kiểu string, nên Java sẽ thấy hai constructor này có chữ ký giống hệt nhau 
+(DigitalVideoDisc(String x)). Nó sẽ không phân biệt được khi truyền một chuỗi vào thì đang muốn gán cho title hay category, vì vậy sẽ báo lỗi.
+Section 4 - Debug Run
+After debugging swap(), I observed that swapping references inside the method does not affect the original objects outside the method. This proves that Java uses pass by value.
+3. Passing parameter
+Question: Is Java a Pass by Value or Pass by Reference programming language?
+Java là ngôn ngữ sử dụng truyền bằng giá trị (Pass by value)
+6. Open the Cart class
+Question: Write a toString() method for the DigitalVideoDisc class. What should be the return type of this method?
+Kiểu trả về là 1 chuỗi kí tự
