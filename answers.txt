@@ -1,0 +1,21 @@
+- Compare the top-level containers in Swing and AWT:
+  + AWT:Là Frame. Lập trình viên có thể dùng lệnh add() để gắn trực tiếp các thành phần con lên Frame.
+  + Swing: Là JFrame. Không thể gắn trực tiếp thành phần con. Phải trích xuất Content-pane và gắn thành phần lên đó.
+- Compare the class name of components in AWT and the corresponding class’s name in Swing:
+  + AWT: Sử dụng các tên lớp cơ bản như: Label, TextField, Button, Panel.
+  + Swing: Thêm tiền tố "J" vào trước để phân biệt: JLabel, JTextField, JButton, JPanel.
+- Compare the event-handling of Swing and AWT applications:
+  + AWT: Sử dụng các interface và class từ gói java.awt.event.
+  + Swing: Giống hệt AWT. Swing hoàn toàn tái sử dụng lại cơ chế lắng nghe và ủy quyền sự kiện của AWT.
+Giao diện hiển thị:
+  + AWT: Nặng: Nhờ hệ điều hành gốc vẽ giao diện. Ứng dụng sẽ có giao diện khác nhau tùy thuộc vào việc chạy trên Windows, macOS hay Linux.
+  + Swing: Nhẹ: Hầu hết các thành phần do chính Java tự vẽ ra . Giao diện đồng nhất trên mọi hệ điều hành.
+
+Câu hỏi LAB05:
+What happens when you don't update for them to catch?
+Trả lời: Vì lớp PlayerException được yêu cầu kế thừa trực tiếp từ lớp java.lang.Exception, 
+nó được phân loại là một "checked exception" trong Java. Khi phương thức play() đã khai 
+báo throws PlayerException, luật của Java bắt buộc bất kỳ đoạn code nào gọi phương thức này
+đều phải xử lý ngoại lệ bằng khối lệnh try-catch, hoặc phải tiếp tục khai báo throws ở chữ ký của phương thức gọi nó.
+Do đó, nếu không cập nhật lớp Aims để bắt (catch) ngoại lệ này, 
+trình biên dịch của Java sẽ báo lỗi với thông báo dạng "unreported exception" và từ chối biên dịch chương trình.
